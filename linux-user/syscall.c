@@ -3124,6 +3124,7 @@ static abi_long do_socket(int domain, int type, int protocol)
 #ifdef CONFIG_RTNETLINK
          protocol == NETLINK_ROUTE ||
 #endif
+         protocol == SOCK_RAW ||
          protocol == NETLINK_KOBJECT_UEVENT ||
          protocol == NETLINK_AUDIT)) {
         return -TARGET_EPROTONOSUPPORT;
@@ -3149,6 +3150,9 @@ static abi_long do_socket(int domain, int type, int protocol)
                 fd_trans_register(ret, &target_netlink_route_trans);
                 break;
 #endif
+            case SOCK_RAW:
+                /* nothing to do: messages are strings */
+                break;
             case NETLINK_KOBJECT_UEVENT:
                 /* nothing to do: messages are strings */
                 break;
